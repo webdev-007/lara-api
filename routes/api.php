@@ -16,17 +16,19 @@ use App\Http\Controllers\AuthApiController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/register',[AuthApiController::class, 'register'])->name('api.register');
-Route::post('/login',[AuthApiController::class, 'login'])->name('api.login');
+Route::prefix('v1')->group(function () {
+    Route::post('/register',[AuthApiController::class, 'register'])->name('api.register');
+    Route::post('/login',[AuthApiController::class, 'login'])->name('api.login');
 
-Route::middleware('auth:sanctum')->group(function (){
+    Route::middleware('auth:sanctum')->group(function (){
 
-    Route::post('/logout',[AuthApiController::class, 'logout'])->name('api.logout');
-    Route::post('/logoutAll',[AuthApiController::class, 'logoutAll'])->name('api.logoutAll');
-    Route::get('/tokens',[AuthApiController::class, 'tokens'])->name('api.tokens');
+        Route::post('/logout',[AuthApiController::class, 'logout'])->name('api.logout');
+        Route::post('/logoutAll',[AuthApiController::class, 'logoutAll'])->name('api.logoutAll');
+        Route::get('/tokens',[AuthApiController::class, 'tokens'])->name('api.tokens');
 
-    Route::apiResource("/products", ProductApiController::class);
-    Route::apiResource("/photos", PhotoApiController::class);
+        Route::apiResource("/products", ProductApiController::class);
+        Route::apiResource("/photos", PhotoApiController::class);
+    });
 });
 
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
